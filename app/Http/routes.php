@@ -23,7 +23,7 @@ Route::get('/users', 'UserController@getAllUsers');
 Route::resource("user", "UserController");*/
 
 Route::get('/users_posts', function () {
-    $user = \App\User::all();
+    /*$user = \App\User::all();
 
     foreach ($user as $u) {
         echo "<h1>{$u->name}</h1>";
@@ -39,6 +39,8 @@ Route::get('/users_posts', function () {
             }
         }
         echo "</ul>";
-    }
+    }*/
+
+    echo App\User::with('posts')->find(1);
 
 });
