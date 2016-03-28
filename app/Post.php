@@ -18,4 +18,8 @@ class Post extends Model {
         return $this->belongsToMany('App\Tag');
     }
 
+    public function scopeActive($query){
+        return $query->where('active', 1);
+    }
+
 }
