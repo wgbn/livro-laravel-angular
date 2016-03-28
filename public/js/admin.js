@@ -47,7 +47,7 @@ app.controller('adminController', function ($scope, $http, $rootScope, $location
     });
 });
 
-app.controller('postController', function ($scope, $resource, login) {
+app.controller('postController', function ($scope, Post, login) {
     login.check();
 
     //Título da página
@@ -56,11 +56,11 @@ app.controller('postController', function ($scope, $resource, login) {
     $scope.rows = null;
     //Um objeto
     $scope.row = null;
-    //Resource Tag
-    var Post = $resource("posts/:id");
+
     $scope.$on('$viewContentLoaded', function(){
         $scope.loadAll();
     });
+
     $scope.loadAll = function(){
         $scope.row = null;
         $scope.title = "Posts";
@@ -69,7 +69,8 @@ app.controller('postController', function ($scope, $resource, login) {
         },function(response){
             notifyError(response);
         });
-    }
+    };
+
     $scope.getById = function($id){
         Post.get({id:$id},function(data){
             $scope.title = "Post: " + data.title;
@@ -77,10 +78,12 @@ app.controller('postController', function ($scope, $resource, login) {
         },function(data){
             notifyError(data);
         });
-    }
+    };
+
     $scope.createNew = function(){
         $scope.row = {title:"",active:0};
-    }
+    };
+
     $scope.save = function(){
         if ($scope.form.$invalid) {
             notifyError("Valores inválidos");
@@ -92,10 +95,10 @@ app.controller('postController', function ($scope, $resource, login) {
         },function(data){
             notifyError(data);
         });
-    }
+    };
 });
 
-app.controller('tagController', function ($scope, $resource, login) {
+app.controller('tagController', function ($scope, Tag, login) {
     login.check();
 
     //Título da página
@@ -104,8 +107,6 @@ app.controller('tagController', function ($scope, $resource, login) {
     $scope.rows = null;
     //Um objeto
     $scope.row = null;
-    //Resource Tag
-    var Tag = $resource("tags/:id");
 
     $scope.$on('$viewContentLoaded', function(){
         $scope.loadAll();
@@ -148,7 +149,7 @@ app.controller('tagController', function ($scope, $resource, login) {
     };
 });
 
-app.controller('commentController', function ($scope, $resource, login) {
+app.controller('commentController', function ($scope, Comment, Post, login) {
     login.check();
 
     //Array de posts
@@ -159,20 +160,7 @@ app.controller('commentController', function ($scope, $resource, login) {
     $scope.rows = null;
     //Um objeto
     $scope.row = null;
-    //Resource
-    var Comment = $resource("comments/:id", {}, {
-        getByPost: {
-            url: '/comments/post/:id',
-            method: 'GET',
-            isArray: true
-        }
-    });
 
-    //Resource
-    var Post = $resource("posts/:id",{},{
-        getTitles: {url:'/posts/getTitles',
-            method:'GET',isArray:true}
-    });
     $scope.$on('$viewContentLoaded', function(){
         $scope.loadAllPosts();
     });
@@ -205,7 +193,7 @@ app.controller('commentController', function ($scope, $resource, login) {
     };
 });
 
-app.controller('userController', function ($scope, $resource, login) {
+app.controller('userController', function ($scope, User, login) {
     login.check();
 
     //Título da página
@@ -214,8 +202,7 @@ app.controller('userController', function ($scope, $resource, login) {
     $scope.rows = null;
     //Um objeto
     $scope.row = null;
-    //Resource Tag
-    var User = $resource("users/:id");
+
     $scope.$on('$viewContentLoaded', function(){
         $scope.loadAll();
     });
@@ -253,17 +240,17 @@ app.controller('userController', function ($scope, $resource, login) {
     };
 });
 
-app.controller('profileController', function ($scope, login, $resource, $rootScope) {
+app.controller('profileController', function ($scope, login, User, $rootScope) {
     login.check();
-//Título da página
+    //Título da página
     $scope.title = "Perfil";
-//Um objeto
+    //Um objeto
     $scope.row = null;
-//Resource Tag
-    var User = $resource("users/:id");
+
     $scope.$on('$viewContentLoaded', function(){
         $scope.getById($rootScope.authuser.id);
     });
+
     $scope.getById = function($id){
         User.get({id:$id},function(data){
             $scope.row = data;
@@ -271,6 +258,7 @@ app.controller('profileController', function ($scope, login, $resource, $rootSco
             notifyError(data);
         });
     };
+
     $scope.save = function(){
         if ($scope.form.$invalid) {
             notifyError("Valores inválidos");

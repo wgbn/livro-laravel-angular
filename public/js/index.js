@@ -65,7 +65,7 @@ app.controller('menuController',function ($scope, $http) {
     });
 });
 
-app.controller('userController',function ($scope,$http) {
+app.controller('userController',function ($scope, $http) {
     $scope.users = [];
     $scope.$on('$viewContentLoaded', function(){
         $http.get("/users/posts").then(function(response){
@@ -76,7 +76,7 @@ app.controller('userController',function ($scope,$http) {
     });
 });
 
-app.controller('commentController',function ($scope,$http) {
+app.controller('commentController',function ($scope, $http) {
     $scope.comments = [];
     $scope.$on('$viewContentLoaded', function(){
         $http.get("/comments").then(function(response){
@@ -87,7 +87,7 @@ app.controller('commentController',function ($scope,$http) {
     });
 });
 
-app.controller('tagController',function ($scope,$http) {
+app.controller('tagController',function ($scope, $http) {
     $scope.tags = [];
     $scope.$on('$viewContentLoaded', function(){
         $http.get("/tags/posts").then(function(response){
@@ -119,7 +119,7 @@ app.controller('loginController', function ($scope, $http, $location, $rootScope
     }
 });
 
-app.controller('logoutController', function ($scope,$http,$location,$rootScope) {
+app.controller('logoutController', function ($scope, $http, $location, $rootScope) {
     $http.get("/logout").then(function(response){
         notifyOk("Logout realizado.");
         $rootScope.authuser = null;
@@ -129,7 +129,7 @@ app.controller('logoutController', function ($scope,$http,$location,$rootScope) 
     });
 });
 
-app.controller('newUserController', function ($scope,$http,$location,$rootScope) {
+app.controller('newUserController', function ($scope, $http, $location, $rootScope) {
     $scope.user = {};
     $scope.createUser = function(){
         if ($scope.form.$invalid) {
