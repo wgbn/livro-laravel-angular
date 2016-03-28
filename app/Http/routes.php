@@ -11,36 +11,14 @@
 |
 */
 
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return Redirect::to('/index.html');
 });
 
-Route::get('/users', 'UserController@getAllUsers');
-
-/*Route::controller("user", "UserController");
-Route::resource("user", "UserController");*/
-
-Route::get('/users_posts', function () {
-    /*$user = \App\User::all();
-
-    foreach ($user as $u) {
-        echo "<h1>{$u->name}</h1>";
-        echo "<ul>";
-        foreach ($u->posts as $post) {
-            echo "<li>{$post->title}</li>";
-            if (count($post->tags) > 0){
-                echo "Tags:<ol>";
-                foreach ($post->tags as $tag) {
-                    echo "<li>$tag->title</li>";
-                }
-                echo "</ol>";
-            }
-        }
-        echo "</ul>";
-    }*/
-
-    echo App\User::with('posts')->find(1);
-
+Route::get('routes', function(){
+    \Artisan::call('route:list');
+    return "<pre>".\Artisan::output()."</pre>";
 });
